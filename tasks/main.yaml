@@ -1,0 +1,23 @@
+---
+- name: detect username and ssh-availability
+  local_action: shell "{{ role_path }}/scripts/wait-for-ssh" --timeout 300 --check-cloud-user --print-user "{{ inventory_hostname }}"
+  register: remote_user_name
+
+- name: allow root ssh connections
+  lineinfile:
+    path: /etc/cloud/cloud.cfg
+    regexp: '^disable_root:'
+    line: 'disable_root: 0'
+  remote_user: "{{ remote_user_name.stdout_lines[0] }}"
+  become: true
+  become_user: root
+
+- name: use the same authorized_keys
+  replace:
+    path: /root/.ssh/authorized_keys
+    regexp: '.*Please login as the user.* ssh-rsa '
+    replace: 'ssh-rsa '
+    backup: yes
+  remote_user: "{{ remote_user_name.stdout_lines[0] }}"
+  become: true
+  become_user: root

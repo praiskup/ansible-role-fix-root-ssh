@@ -1,0 +1,3 @@
+[submodule "submodules/wait-for-ssh"]
+	path = submodules/wait-for-ssh
+	url = https://github.com/praiskup/wait-for-ssh
