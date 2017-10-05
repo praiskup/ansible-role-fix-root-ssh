@@ -1,6 +1,8 @@
 ---
+- set_fact: check_hostname="{{ ansible_host }}"
+
 - name: detect username and ssh-availability
-  local_action: shell "{{ role_path }}/scripts/wait-for-ssh" --timeout 300 --check-cloud-user --print-user "{{ inventory_hostname }}"
+  local_action: shell "{{ role_path }}/scripts/wait-for-ssh" --timeout 300 --check-cloud-user --print-user "{{ check_hostname }}"
   register: remote_user_name
 
 - name: allow root ssh connections
