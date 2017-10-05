@@ -1,0 +1,4 @@
+- hosts: all
+  gather_facts: False
+  roles:
+  - role: ansible-role-fix-root-ssh

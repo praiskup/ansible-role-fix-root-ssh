@@ -23,3 +23,5 @@ Basic wrapper playbook (default `remote_user == 'root'`):
   - role: ansible-fix-ssh-root
 
 ```
+
+Have a look at `./example` directory.

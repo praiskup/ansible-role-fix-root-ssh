@@ -1,0 +1,6 @@
+Run this like (the trailing comma is necessary):
+
+$ host=example.com
+$ ansible-playbook example.yaml --inventory "$host,"
+
+
