@@ -7,7 +7,7 @@
 
 - name: install python (needed by ansible, pfew..)
   # TODO: non-fedora distros (patches welcome)
-  raw: test -f /usr/bin/dnf && dnf -y install /usr/bin/python
+  raw: test -f /usr/bin/python || { test -f /usr/bin/dnf && dnf -y install /usr/bin/python ; }
 
 - name: allow root ssh connections
   lineinfile:
