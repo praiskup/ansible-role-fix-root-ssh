@@ -5,6 +5,10 @@
   local_action: shell "{{ role_path }}/scripts/wait-for-ssh" --timeout 300 --check-cloud-user --print-user "{{ check_hostname }}"
   register: remote_user_name
 
+- name: install python (needed by ansible, pfew..)
+  # TODO: non-fedora distros (patches welcome)
+  raw: test -f /usr/bin/dnf && dnf -y install /usr/bin/python
+
 - name: allow root ssh connections
   lineinfile:
     path: /etc/cloud/cloud.cfg
