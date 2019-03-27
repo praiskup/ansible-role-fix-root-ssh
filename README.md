@@ -5,9 +5,11 @@ Most of the default distro images disallow root ssh connections, as a potential
 security measure.  This Ansible role reverts back the changes in cloud-init
 configuration, same as the changes in root's authorized\_keys file.
 
-Btw, if you hate the error message:
+Btw, if you hate the error messages:
 
     Please login as the user "centos" rather than the user "root".
+    Please login as the user "fedora" rather than the user "root"
+    Please login as the user "cloud-user" rather than the user "root".
 
 Then you'll probably love this role.
 
