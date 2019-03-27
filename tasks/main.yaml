@@ -17,6 +17,9 @@
   remote_user: "{{ remote_user_name.stdout_lines[0] }}"
   become: true
   become_user: root
+  vars:
+      # hack for https://github.com/ansible/proposals/issues/89
+      ansible_user: "{{ remote_user_name.stdout_lines[0] }}"
 
 - name: use the same authorized_keys
   replace:
@@ -27,3 +30,11 @@
   remote_user: "{{ remote_user_name.stdout_lines[0] }}"
   become: true
   become_user: root
+  vars:
+      # hack for https://github.com/ansible/proposals/issues/89
+      ansible_user: "{{ remote_user_name.stdout_lines[0] }}"
+
+# Make sure that connection caches are re-set after executing this task.yml
+# file, otherwise ansible becomes confused and doesn't respect the global
+# configuration correctly.
+- meta: reset_connection
