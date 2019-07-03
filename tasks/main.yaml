@@ -1,23 +1,24 @@
 ---
 - set_fact: check_hostname="{{ ansible_host }}"
 
-- set_fact: our_python=/usr/bin/python2
+- set_fact: our_python=/usr/bin/python3
 
 - name: detect username and ssh-availability
   local_action: shell "{{ role_path }}/scripts/wait-for-ssh" --timeout 300 --check-cloud-user --print-user "{{ check_hostname }}"
   register: remote_user_name
 
-- name: check this box has python3
+- name: check this box has python2
   stat:
-    path: /usr/bin/python3
+    path: /usr/bin/python2
   vars:
       # hack for https://github.com/ansible/proposals/issues/89
       ansible_user: "{{ remote_user_name.stdout_lines[0] }}"
+  ignore_errors: yes
   register: st
 
-- name: use python3
-  set_fact: our_python=/usr/bin/python3
-  when: st.stat.executable
+- name: use python2
+  set_fact: our_python=/usr/bin/python2
+  when: not st.stat.executable
 
 - name: allow root ssh connections
   lineinfile:
