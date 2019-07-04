@@ -1,24 +1,20 @@
 ---
 - set_fact: check_hostname="{{ ansible_host }}"
 
-- set_fact: our_python=/usr/bin/python3
-
 - name: detect username and ssh-availability
   local_action: shell "{{ role_path }}/scripts/wait-for-ssh" --timeout 300 --check-cloud-user --print-user "{{ check_hostname }}"
   register: remote_user_name
 
-- name: check this box has /usr/bin/python
-  stat:
-    path: /usr/bin/python
-  vars:
-      # hack for https://github.com/ansible/proposals/issues/89
-      ansible_user: "{{ remote_user_name.stdout_lines[0] }}"
-  ignore_errors: yes
-  register: st
+- name: detect python to use
+  shell: |
+      try='/usr/bin/python /usr/bin/python3 /usr/bin/python2 /usr/libexec/platform-python'
+      for p in $try; do
+          test -e "$p" && echo "$p" && exit 0
+      done
+      exit 1
+  register: use_python
 
-- name: use /usr/bin/python
-  set_fact: our_python=/usr/bin/python
-  when: st.stat.executable
+- set_fact: our_python={{ use_python.stdout }}
 
 - name: allow root ssh connections
   lineinfile:
