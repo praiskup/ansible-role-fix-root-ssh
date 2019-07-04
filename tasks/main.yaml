@@ -13,6 +13,9 @@
       done
       exit 1
   register: use_python
+  vars:
+      # hack for https://github.com/ansible/proposals/issues/89
+      ansible_user: "{{ remote_user_name.stdout_lines[0] }}"
 
 - set_fact: our_python={{ use_python.stdout }}
 
