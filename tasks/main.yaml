@@ -6,7 +6,7 @@
   register: remote_user_name
 
 - name: detect python to use
-  shell: |
+  raw: |
       try='/usr/bin/python /usr/bin/python3 /usr/bin/python2 /usr/libexec/platform-python'
       for p in $try; do
           test -e "$p" && echo "$p" && exit 0
