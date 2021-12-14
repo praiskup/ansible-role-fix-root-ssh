@@ -4,6 +4,7 @@
 - name: detect username and ssh-availability
   local_action: shell "{{ role_path }}/scripts/wait-for-ssh" --timeout 300 --check-cloud-user --print-user "{{ check_hostname }}"
   register: remote_user_name
+  connection: local
 
 - name: detect python to use
   raw: |
