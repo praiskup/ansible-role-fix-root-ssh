@@ -5,6 +5,7 @@
   local_action: shell "{{ role_path }}/scripts/wait-for-ssh" --timeout 300 --check-cloud-user --print-user "{{ check_hostname }}"
   register: remote_user_name
   connection: local
+  changed_when: false
 
 - name: detect python to use
   raw: |
@@ -17,6 +18,7 @@
   vars:
       # hack for https://github.com/ansible/proposals/issues/89
       ansible_user: "{{ remote_user_name.stdout_lines[0] }}"
+  changed_when: false
 
 - set_fact: our_python={{ use_python.stdout }}
 
