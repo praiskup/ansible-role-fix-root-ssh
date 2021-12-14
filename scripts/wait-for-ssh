@@ -1,1 +1,11 @@
-../submodules/wait-for-ssh/wait-for-ssh
+#! /bin/sh
+
+PYTHONS="python3:python:python2"
+script=$0-inner
+IFS=:
+for dir in $PATH; do
+    for python in $PYTHONS; do
+        test -x "$dir/$python" && exec "$python" "$script" "$@"
+    done
+done
+exit 1
