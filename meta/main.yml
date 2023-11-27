@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: fix-root-ssh
+  role_name: fix_root_ssh
   author: Pavel Raiskup
   description: Setup sshd to accept root ssh connections
   company: Red Hat, Inc.
